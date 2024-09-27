@@ -11,7 +11,7 @@ defmodule Ativ6 do
   # penalizadas.
 
   @doc "Obtem o tamanho da lista l."
-  def tamanho(l), do: nil
+  def tamanho(l), do: length(l)
 
   @doc """
   Replica a string s, n vezes.
@@ -20,7 +20,7 @@ defmodule Ativ6 do
   iex> Ativ6.replica("ruby", 4)
   "rubyrubyrubyruby"
   """
-  def replica(s, n), do: nil
+  def replica(s, n), do: String.duplicate(s, n)
 
   #
   # Funções que usam listas como acumuladores geralmente precisam retornar 
@@ -38,7 +38,7 @@ defmodule Ativ6 do
   iex> Ativ6.reverso([1, 2, 3, 4])
   [4, 3, 2, 1]
   """
-  def reverso(l), do: nil
+  def reverso(l), do: Enum.reverse(l)
 
   # A função reverso deve ser usada nas funções a seguir que acumulam 
   # listas, como map e filter.
@@ -51,16 +51,20 @@ defmodule Ativ6 do
   iex> Ativ6.map([1, 2, 3], fn x -> x * 2 end)
   [2, 4, 6]
   """
-  def map(l, f), do: nil
+  def map(l, f) do
+    for n <- l do
+      f.(n)
+    end
+  end
 
   @doc "Calcula a soma dos numeros da lista l."
-  def soma_lista(l), do: nil
+  def soma_lista(l), do: Enum.sum(l)
 
   @doc "Calcula o produto dos numeros da lista l."
-  def mult_lista(l), do: nil
+  def mult_lista(l), do: Enum.reduce(l, 1, fn(x, acc) -> x * acc end)
 
   @doc "Retorna uma string que e' a concatenacao de todas as strings na lista ls."
-  def concat_lista(ls), do: nil
+  def concat_lista(ls), do: Enum.join(ls, "")
 
   @doc """
   Retorna uma lista com os elementos da lista l para os quais o predicado p
@@ -70,8 +74,11 @@ defmodule Ativ6 do
   iex> Ativ6.filter([10, 2, 15, 9, 42, 27], fn x -> x > 10 end)
   [15, 42, 27]
   """
-  def filter(l, p), do: nil
-
+  def filter(l, p) do 
+    for x <- l, p.(x) do
+      x
+    end
+  end
   # Opcional: fold_right com recursão de cauda
 
   # Vimos que duas funções de alta ordem importantes são
@@ -89,13 +96,13 @@ defmodule Ativ6 do
   # A função fold_left, da forma que ela normalmente é escrita, já
   # tem recursão em cauda:
   
-  def fold_left([], f, i), do: i
-  def fold_left([x | r], f, i), do: fold_left(r, f, f.(i, r))
+  # def fold_left([], f, i), do: i
+  # def fold_left([x | r], f, i), do: fold_left(r, f, f.(i, r))
 
   # Já fold_right normalmente não é recursiva em cauda:
   
-  def fold_right([], f, i), do: i
-  def fold_right([x | r], f, i), do: f.(x, fold_right(r, f, i))
+  # def fold_right([], f, i), do: i
+  # def fold_right([x | r], f, i), do: f.(x, fold_right(r, f, i))
 
   # Para este exercício opcional, crie uma versão de fold_right
   # com recursividade de cauda. Adicione testes para verificar
